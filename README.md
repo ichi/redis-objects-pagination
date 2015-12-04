@@ -1,8 +1,6 @@
 # Redis::Objects::Pagination
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/redis/objects/pagination`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Pagination for [redis-objects](https://github.com/nateware/redis-objects).
 
 ## Installation
 
@@ -22,7 +20,49 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### `Redis::List`
+
+```ruby
+Redis::List.new('list_key').paginator(:range).page(2).paginate
+```
+
+### `Redis::SortedSet`
+
+```ruby
+Redis::SortedSet.new('sorted_set_key').paginator(:range).page(2).paginate
+```
+
+```ruby
+Redis::SortedSet.new('sorted_set_key').paginator(:revrange).page(2).paginate
+```
+
+### with options
+
+```ruby
+Redis::List.new('list_key').paginator(:range, offset: 10, limit: 10).page(2).paginate
+```
+
+```ruby
+Redis::SortedSet.new('sorted_set_key').paginator(:revrange, with_scores: true).page(2).paginate
+```
+
+### paginator methods
+
+```ruby
+paginator = Redis::List.new('list_key').paginator(:range)
+
+paginator.page(2)       # => Paginator
+paginator.per(20)       # => Paginator
+paginator.total_count   # => Integer
+paginator.total_pages   # => Integer
+paginator.current_page  # => Integer
+paginator.next_page     # => Integer
+paginator.prev_page     # => Integer
+paginator.first_page?   # => Boolean
+paginator.last_page?    # => Boolean
+
+paginator.paginate      # => Array
+```
 
 ## Development
 
