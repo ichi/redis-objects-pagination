@@ -4,10 +4,7 @@ class Redis
       class Paginator
         module CollectionProxy
           include Enumerable
-
-          def each(&block)
-            to_a.each(block)
-          end
+          delegate :each, to: :to_a
 
           def to_ary
             paginate
